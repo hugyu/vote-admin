@@ -4,6 +4,7 @@ import { LogoutOutlined ,HomeOutlined,
   EditOutlined} from "@ant-design/icons";
 import "./index.scss";
 import ShowDataScreen from "../ShowData";
+import AddData from "../AddData";
 const { Header, Content, Footer, Sider } = Layout;
 function LayoutScreen() {
   return (
@@ -43,7 +44,7 @@ function LayoutScreen() {
             </Menu.Item>
           </Menu></Sider>
         <Content className="layout-content" style={{ padding: 20, minHeight: "100vh" }}>
-          <ShowDataScreen/>
+          <AddData/>
         </Content>
       </Layout>
     </Layout>

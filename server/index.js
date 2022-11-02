@@ -8,14 +8,12 @@ const models = require("./models");
 //     // res:响应对象
 //     res.send("hello world")
 // })
-app.all('*', (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By", 'Express');
-    res.header("Content-Type", "application/json;charset=utf-8");
-    next();
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
+
 // 当请求体content-type 是application/json时 将数据解析到req.body
 app.use(express.json());
 // 当请求体content-type 是application/x-www-form-urlencoded时 调用这个中间件

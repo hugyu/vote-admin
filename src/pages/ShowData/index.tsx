@@ -7,7 +7,7 @@ import "./index.scss";
 const { Option } = Select;
 function ShowDataScreen() {
   const [data, setData] = useState<any>([]);
-  const [eChartData,setEchartData] = useState<any>()
+  const [eChartData, setEchartData] = useState<any>();
   const [columns, setColumns] = useState<ColumnsType<any>>([
     {
       title: "",
@@ -20,7 +20,7 @@ function ShowDataScreen() {
     setData(result);
     getColumns(result);
     handleDataSource(result);
-    handleEchartsData(result)
+    handleEchartsData(result);
   };
   const getColumns = (listData: any[]) => {
     const newColumns: ColumnsType<any> = [
@@ -43,17 +43,16 @@ function ShowDataScreen() {
     });
     setData([object]);
   };
-  const handleEchartsData = (dataList: { [x: string]: number; }[]) => {
+  const handleEchartsData = (dataList: { [x: string]: number }[]) => {
     console.log("handleEchartsData");
 
     const xData: Array<string> = [];
     const yData: Array<number> = [];
-    dataList.forEach((data:any) => {
+    dataList.forEach((data: any) => {
       xData.push(data["label"]);
       yData.push(data["ticket_count"]);
-    })
-    setEchartData([xData, yData])
-
+    });
+    setEchartData([xData, yData]);
 
     return [xData, yData];
   };
@@ -76,20 +75,30 @@ function ShowDataScreen() {
           <Option value="yoghurt">酸奶</Option>
         </Select>
       </div>
-      <div className="table-container" style={{marginTop:`${data.length>0?'30px':'90px'}`}}>
-        {
-          data.length>0?<Table columns={columns} dataSource={data} pagination={false} style={{height:"200px"}} />: <Empty />
-        }
+      <div
+        className="table-container"
+        style={{ marginTop: `${data.length > 0 ? "30px" : "90px"}` }}
+      >
+        {data.length > 0 ? (
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            style={{ height: "200px" }}
+          />
+        ) : (
+          <Empty />
+        )}
       </div>
       <div className="echartContainer">
-        {
-          data.length>0&&<Bar
-          style={{ width: "500px", height: "400px", margin: "0 auto"}}
-          xData={eChartData[0]}
-          sData={eChartData[1]}
-          title="用户投票情况"
-        />
-      }
+        {data.length > 0 && (
+          <Bar
+            style={{ width: "500px", height: "400px", margin: "0 auto" }}
+            xData={eChartData[0]}
+            sData={eChartData[1]}
+            title="用户投票情况"
+          />
+        )}
       </div>
     </div>
   );
