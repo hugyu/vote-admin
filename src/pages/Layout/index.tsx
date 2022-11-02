@@ -5,6 +5,7 @@ import { LogoutOutlined ,HomeOutlined,
 import "./index.scss";
 import ShowDataScreen from "../ShowData";
 import AddData from "../AddData";
+import HandleData from "../HandleData";
 const { Header, Content, Footer, Sider } = Layout;
 function LayoutScreen() {
   return (
@@ -44,7 +45,7 @@ function LayoutScreen() {
             </Menu.Item>
           </Menu></Sider>
         <Content className="layout-content" style={{ padding: 20, minHeight: "100vh" }}>
-          <AddData/>
+          <HandleData/>
         </Content>
       </Layout>
     </Layout>
