@@ -1,38 +1,38 @@
 const express = require("express");
 const router = express.Router();
 const sqlQuery = require("../mysql");
-const imgLists = [
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/fenda.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/guozhi.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/meizhiyuan.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/neneliang1.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/shuidongle.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/yangguang.png",
-];
-const nameList=['芬达','大红袍','美汁源','能量饮料','水动乐','阳光柠檬']
-const createTable = async () => {
-  try {
-    //创建表
-    const createTableSql = `
-    create table if not exists drinks (
-        id int auto_increment,
-        label varchar(255) not null,
-        imgUrl char(255) not null,
-        ticket_count int not null default 0,
-        primary key (id)
-    ) engine=innodb;
-    `;
-    await sqlQuery(createTableSql);
-    //向表中插入图片
-    for (let i = 0; i < imgLists.length; i++) {
-      const insetSql = `insert into drinks(id,label,imgUrl) values(null,'${nameList[i]}','${imgLists[i]}')`;
-      await sqlQuery(insetSql);
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-createTable();
+// const imgLists = [
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/fenda.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/guozhi.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/meizhiyuan.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/neneliang1.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/shuidongle.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/drinks/yangguang.png",
+// ];
+// const nameList=['芬达','大红袍','美汁源','能量饮料','水动乐','阳光柠檬']
+// const createTable = async () => {
+//   try {
+//     //创建表
+//     const createTableSql = `
+//     create table if not exists drinks (
+//         id int auto_increment,
+//         label varchar(255) not null,
+//         imgUrl char(255) not null,
+//         ticket_count int not null default 0,
+//         primary key (id)
+//     ) engine=innodb;
+//     `;
+//     await sqlQuery(createTableSql);
+//     //向表中插入图片
+//     for (let i = 0; i < imgLists.length; i++) {
+//       const insetSql = `insert into drinks(id,label,imgUrl) values(null,'${nameList[i]}','${imgLists[i]}')`;
+//       await sqlQuery(insetSql);
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// createTable();
 router.get("/drinks", async (req, res) => {
   const strsql = "select * from drinks";
   try {

@@ -1,39 +1,39 @@
 const express = require("express");
 const router = express.Router();
 const sqlQuery = require("../mysql");
-const imgLists = [
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/caomei.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/hetao.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/huangtao%20.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/lanmei.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/luhui.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/yanmai.png",
-  "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/yeguo.png"
-];
-const nameList=['草莓','核桃','黄桃','蓝莓','芦荟','燕麦','椰果']
-const createTable = async () => {
-  try {
-    //创建表
-    const createTableSql = `
-    create table if not exists yoghurt (
-        id int auto_increment,
-        label varchar(255) not null,
-        imgUrl char(255) not null,
-        ticket_count int not null default 0,
-        primary key (id)
-    ) engine=innodb;
-    `;
-    await sqlQuery(createTableSql);
-    //向表中插入图片
-    for (let i = 0; i < imgLists.length; i++) {
-      const insetSql = `insert into yoghurt(id,label,imgUrl) values(null,'${nameList[i]}','${imgLists[i]}')`;
-      await sqlQuery(insetSql);
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-createTable();
+// const imgLists = [
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/caomei.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/hetao.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/huangtao%20.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/lanmei.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/luhui.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/yanmai.png",
+//   "https://serverless-project-static-files-hgy.oss-cn-hangzhou.aliyuncs.com/exsercise/yoghurt/yeguo.png"
+// ];
+// const nameList=['草莓','核桃','黄桃','蓝莓','芦荟','燕麦','椰果']
+// const createTable = async () => {
+//   try {
+//     //创建表
+//     const createTableSql = `
+//     create table if not exists yoghurt (
+//         id int auto_increment,
+//         label varchar(255) not null,
+//         imgUrl char(255) not null,
+//         ticket_count int not null default 0,
+//         primary key (id)
+//     ) engine=innodb;
+//     `;
+//     await sqlQuery(createTableSql);
+//     //向表中插入图片
+//     for (let i = 0; i < imgLists.length; i++) {
+//       const insetSql = `insert into yoghurt(id,label,imgUrl) values(null,'${nameList[i]}','${imgLists[i]}')`;
+//       await sqlQuery(insetSql);
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// createTable();
 router.get("/yoghurt", async (req, res) => {
   const strsql = "select * from yoghurt";
   try {
