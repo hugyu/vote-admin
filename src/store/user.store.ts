@@ -1,7 +1,7 @@
 // 用户模块
 
 import { makeAutoObservable } from "mobx";
-import { http } from "../common/utils";
+// import { http } from "../common/utils";
 
 class UserStore {
   userInfo = "";
@@ -10,8 +10,8 @@ class UserStore {
   }
 
   async getUserInfo() {
-    const res = await http.get("/user/profile");
-    this.userInfo = res.data.data.name;
+    // const res = await http.get("/user");
+    this.userInfo = 'csa';
   }
 }
 

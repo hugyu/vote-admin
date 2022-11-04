@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useStore } from "../../store";
 type VisibleType = { [key: string]: boolean };
 const { Header, Content, Sider } = Layout;
+const { Item } = Menu;
 function LayoutScreen() {
   //设置状态 管理是否显示
   const [visible, setVisible] = useState<VisibleType>({
@@ -73,27 +74,27 @@ function LayoutScreen() {
             style={{ height: "100%", borderRight: 0 }}
             selectedKeys={[selectedKey]}
           >
-            <Menu.Item
+            <Item
               icon={<HomeOutlined />}
               key="/showData"
               onClick={handleSelect}
             >
               <Link to="/showData">数据概览</Link>
-            </Menu.Item>
-            <Menu.Item
+            </Item>
+            <Item
               icon={<DiffOutlined />}
               key="/handleData"
               onClick={handleSelect}
             >
               <Link to="/handleData"> 内容管理</Link>
-            </Menu.Item>
-            <Menu.Item
+            </Item>
+            <Item
               icon={<EditOutlined />}
               key="/deleteData"
               onClick={handleSelect}
             >
               <Link to="/addData">发布饮品</Link>
-            </Menu.Item>
+            </Item>
           </Menu>
         </Sider>
         <Content

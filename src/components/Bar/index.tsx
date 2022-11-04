@@ -44,7 +44,7 @@ function Bar({
   const nodeRef = useRef(null);
   useEffect(() => {
     echartInit(nodeRef.current, xData, sData, title);
-  }, [xData, sData]);
+  }, [xData, sData,title]);
 
   return <div ref={nodeRef} style={style}></div>;
 }

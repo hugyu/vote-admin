@@ -27,7 +27,7 @@ function ShowDataScreen() {
     const newColumns: ColumnsType<{ [key: string]: string }> = [
       { title: "", dataIndex: "ticket_count" },
     ];
-    listData.map((data, _index) => {
+    listData.forEach((data, _index) => {
       const object = { title: data["label"], dataIndex: data["label"] };
       if (columns.includes(object)) return;
       newColumns.push(object);
@@ -36,7 +36,7 @@ function ShowDataScreen() {
   };
   const handleDataSource = (listData: Array<ResultType>) => {
     const object = { ticket_count: "ticket_count" };
-    listData.map((data, _index) => {
+    listData.forEach((data, _index) => {
       const label = data["label"];
       const ticket_count = data["ticket_count"];
       // @ts-ignore

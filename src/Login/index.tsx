@@ -3,7 +3,7 @@ import logo from "../assets/logo.png";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";
-interface Form {
+interface FormProps {
   mobile: string;
   code: string;
   remember: boolean;
@@ -11,7 +11,7 @@ interface Form {
 export const LoginScreen = () => {
   const navigate = useNavigate();
   const { loginStore } = useStore();
-  const onFinish = async (values: Form) => {
+  const onFinish = async (values: FormProps) => {
     const { mobile, code } = values;
     try {
       await loginStore.login({ mobile, code });
@@ -23,7 +23,7 @@ export const LoginScreen = () => {
   return (
     <div className="login-screen">
       <Card className="login-container">
-        <img className="login-logo" src={logo} />
+        <img className="login-logo" src={logo} alt="njupt"/>
         <Form
           validateTrigger={["onBlur", "onChange"]}
           onFinish={onFinish}
