@@ -8,16 +8,21 @@ import {
   Form,
   Input,
 } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { useEffect, useState } from "react";
 import { http } from "../../common/utils";
 import "./index.scss";
 export type ResultType = { [key: string]: string | number; id: number };
 function HandleData() {
+  const [form]=useForm()
   //控制drawer的显示
   const [open, setOpen] = useState(false);
-  const showDrawer = (id: number) => {
+  const showDrawer = (option:ResultType) => {
     setOpen(true);
-    setId(id);
+    setId(option.id);
+    for (const [key, value] of Object.entries(option)) {    
+      form.setFieldValue(key, value);
+    }
   };
 
   const onClose = () => {
@@ -98,7 +103,7 @@ function HandleData() {
                 key: "修改",
                 render(_value, option) {
                   return (
-                    <Button type={"link"} onClick={() => showDrawer(option.id)}>
+                    <Button type={"link"} onClick={() => showDrawer(option)}>
                       编辑
                     </Button>
                   );
@@ -133,6 +138,7 @@ function HandleData() {
       >
         <Form
           style={{ width: "25em" }}
+          form={form}
           layout={"vertical"}
           onFinish={(e: { [key: string]: string }) => {
             handleSubmit(e);
