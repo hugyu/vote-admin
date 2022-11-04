@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { http } from "../../common/utils";
 import "./index.scss";
+export type ResultType = { [key: string]: string | number; id: number };
 function HandleData() {
   //控制drawer的显示
   const [open, setOpen] = useState(false);
@@ -23,11 +24,11 @@ function HandleData() {
     setOpen(false);
     getOptionResult(item);
   };
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<Array<ResultType>>([]);
   const [id, setId] = useState<number>();
-  const [items, setItems] = useState<Array<any>>();
+  const [items, setItems] = useState<Array<string>>();
   // select哪个选中了
-  const [item, setItem] = useState<any>();
+  const [item, setItem] = useState<string>("");
   const getOptionResult = async (str: string) => {
     const res = await http.get(`/itemReq?${str}`);
     const result = res.data.result;
@@ -37,7 +38,7 @@ function HandleData() {
   const getItems = async () => {
     const res = await http.get("/choice");
     const result = res.data.result;
-    let Items: Array<any> = [];
+    let Items: Array<string> = [];
     result.forEach((result: { label: string }) => {
       Items.push(result.label);
     });
@@ -59,7 +60,7 @@ function HandleData() {
       message.error("删除失败", 1);
     }
   };
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: { [key: string]: string }) => {
     const newData = { ...data, item, id };
     const res = await http.post(`/changeItem`, newData);
     if (res.data.code === 1) {
@@ -81,7 +82,7 @@ function HandleData() {
           onSelect={(e: string) => {
             handleSelect(e);
           }}
-          options={items?.map((item: any) => ({ label: item, value: item }))}
+          options={items?.map((item: string) => ({ label: item, value: item }))}
         ></Select>
       </div>
       <div
@@ -95,7 +96,7 @@ function HandleData() {
               {
                 title: "修改",
                 key: "修改",
-                render(value, option) {
+                render(_value, option) {
                   return (
                     <Button type={"link"} onClick={() => showDrawer(option.id)}>
                       编辑
@@ -106,7 +107,7 @@ function HandleData() {
               {
                 title: "删除",
                 key: "删除",
-                render(value, option) {
+                render(_value, option) {
                   return (
                     <Button type="link" onClick={() => deleteItem(option.id)}>
                       删除
@@ -133,7 +134,7 @@ function HandleData() {
         <Form
           style={{ width: "25em" }}
           layout={"vertical"}
-          onFinish={(e) => {
+          onFinish={(e: { [key: string]: string }) => {
             handleSubmit(e);
           }}
         >

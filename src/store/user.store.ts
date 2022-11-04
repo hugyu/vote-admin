@@ -1,20 +1,18 @@
 // 用户模块
 
-
-import { makeAutoObservable } from "mobx"
-import { http } from "../common/utils"
-
+import { makeAutoObservable } from "mobx";
+import { http } from "../common/utils";
 
 class UserStore {
-    userInfo = ''
-    constructor() {
-        makeAutoObservable(this)
-    }
+  userInfo = "";
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-    async getUserInfo() {
-        const res = await http.get('/user/profile')
-        this.userInfo = res.data.data.name
-    }
+  async getUserInfo() {
+    const res = await http.get("/user/profile");
+    this.userInfo = res.data.data.name;
+  }
 }
 
-export default UserStore
+export default UserStore;

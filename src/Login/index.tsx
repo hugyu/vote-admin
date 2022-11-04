@@ -1,5 +1,5 @@
 import { Button, Card, Checkbox, Form, Input, message } from "antd";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";

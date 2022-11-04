@@ -1,13 +1,21 @@
-import { Button, Divider, Form, Input, InputRef, message, Select, Space } from "antd";
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  InputRef,
+  message,
+  Select,
+  Space,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import "./index.scss";
-import {  useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { http } from "../../common/utils";
-const TABLES = { '牛奶': 'pure_milk', '饮料':'drinks','酸奶':'yoghurt','矿泉水':'mineral_water'}
 function AddData() {
-  const [items, setItems] = useState<Array<any>>([]);
+  const [items, setItems] = useState<Array<string>>([]);
   const [name, setName] = useState("");
-  const [addCount,setAddCount] = useState(1)
+  const [addCount, setAddCount] = useState(1);
   const inputRef = useRef<InputRef>(null);
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -20,45 +28,47 @@ function AddData() {
       }
       setName("");
       setTimeout(() => {
-        inputRef.current?.focus(); 
+        inputRef.current?.focus();
       }, 0);
-      setAddCount(pre=>pre-1)
+      setAddCount((pre) => pre - 1);
     } else {
       return;
-   }
+    }
   };
   const getOptionResult = async () => {
     const res = await http.get("/choice");
     const result = res.data.result;
-    let Items:Array<any> = []
-    result.forEach((result: { label: string; }) => {
-      Items.push(result.label)
-    })
+    let Items: Array<string> = [];
+    result.forEach((result: { label: string }) => {
+      Items.push(result.label);
+    });
     setItems(Items);
   };
 
-  const handleSubmit = async (data: any) => {
-    
-    const newData={...data,added:addCount===1?false:true}
-    const res = await http.post('/addItem', newData)
+  const handleSubmit = async (data: { [key: string]: string }) => {
+    const newData = { ...data, added: addCount === 1 ? false : true };
+    const res = await http.post("/addItem", newData);
     if (res.data.code === 1) {
-      message.success('添加成功',1)
+      message.success("添加成功", 1);
     } else if (res.data.code === 2) {
-      message.warning('重复添加',1)
+      message.warning("重复添加", 1);
     } else {
-      message.error('添加失败',1)
+      message.error("添加失败", 1);
     }
-    
-    
-  }
+  };
   useEffect(() => {
-    getOptionResult()
+    getOptionResult();
   }, []);
   return (
     <div className="container">
       <h1>添加饮品</h1>
-      <Form style={{ width: "25em" }} layout={"vertical"} onFinish={(e)=>{handleSubmit(e);
-      }}>
+      <Form
+        style={{ width: "25em" }}
+        layout={"vertical"}
+        onFinish={(e) => {
+          handleSubmit(e);
+        }}
+      >
         <Form.Item
           label={"类别"}
           name={"option"}
@@ -90,7 +100,6 @@ function AddData() {
           label={"名称"}
           name={"label"}
           rules={[{ required: true, message: "请输入饮料名" }]}
-
         >
           <Input placeholder={"请输入饮料名称"} />
         </Form.Item>

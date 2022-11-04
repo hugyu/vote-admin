@@ -9,42 +9,46 @@ import "./index.scss";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "../../store";
-
+type VisibleType = { [key: string]: boolean };
 const { Header, Content, Sider } = Layout;
 function LayoutScreen() {
   //设置状态 管理是否显示
-  const [visible, setVisible] = useState({
+  const [visible, setVisible] = useState<VisibleType>({
     "/home": false,
     "/article": false,
     "/publish": false,
   });
-  const handleSelect = (e: any) => {
-    setVisible((prev: any) => {
+  const handleSelect = (e: { key: string }) => {
+    console.log(e);
+
+    setVisible((prev: VisibleType) => {
       if (prev[e.key]) return prev;
       return { ...visible, [e.key]: true };
     });
   };
   const location = useLocation();
-  const navigate = useNavigate()
-  const {userStore,loginStore}=useStore()
+  const navigate = useNavigate();
+  const { userStore, loginStore } = useStore();
 
   // 这里是当前浏览器上的路径地址
   const selectedKey = location.pathname;
   const onLogout = () => {
-    loginStore.loginOut()
-    navigate('/login')
-  }
+    loginStore.loginOut();
+    navigate("/login");
+  };
   useEffect(() => {
     try {
-      userStore.getUserInfo()
+      userStore.getUserInfo();
     } catch {}
-  }, [userStore])
+  }, [userStore]);
   return (
     <Layout>
       <Header>
         <div className="logo"></div>
         <div className="user-info">
-          <span className="user-name">{userStore.userInfo?userStore.userInfo:'用户' }</span>
+          <span className="user-name">
+            {userStore.userInfo ? userStore.userInfo : "用户"}
+          </span>
           <span className="user-logout">
             <Popconfirm
               title="是否确认退出？"

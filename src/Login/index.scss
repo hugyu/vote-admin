@@ -1,9 +1,9 @@
 .login-screen {
-    width: 100%;
-    height: 100%;
-    position:absolute;
-    left: 0;
-    top:0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .login-logo {
@@ -13,15 +13,15 @@
   margin: 0 auto 20px;
 }
 .login-container {
-    width: 440px;
-    height: 360px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 50px rgb(0 0 0 / 10%);
-  }
+  width: 440px;
+  height: 360px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 50px rgb(0 0 0 / 10%);
+}
 .login-checkbox-label {
-    color: #1890ff!important;
-    font-size: 5px;
+  color: #1890ff !important;
+  font-size: 5px;
 }

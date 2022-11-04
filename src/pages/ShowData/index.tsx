@@ -3,12 +3,13 @@ import { ColumnsType } from "antd/lib/table";
 import { useState } from "react";
 import { http } from "../../common/utils";
 import Bar from "../../components/Bar";
+import { ResultType } from "../HandleData";
 import "./index.scss";
 const { Option } = Select;
 function ShowDataScreen() {
-  const [data, setData] = useState<any>([]);
-  const [eChartData, setEchartData] = useState<any>();
-  const [columns, setColumns] = useState<ColumnsType<any>>([
+  const [data, setData] = useState<Array<Omit<ResultType, "id">>>([]);
+  const [eChartData, setEchartData] = useState<Array<any>>([]);
+  const [columns, setColumns] = useState<ColumnsType<{}>>([
     {
       title: "",
       dataIndex: "ticket_count",
@@ -22,8 +23,8 @@ function ShowDataScreen() {
     handleDataSource(result);
     handleEchartsData(result);
   };
-  const getColumns = (listData: any[]) => {
-    const newColumns: ColumnsType<any> = [
+  const getColumns = (listData: Array<ResultType>) => {
+    const newColumns: ColumnsType<{ [key: string]: string }> = [
       { title: "", dataIndex: "ticket_count" },
     ];
     listData.map((data, _index) => {
@@ -33,7 +34,7 @@ function ShowDataScreen() {
     });
     setColumns(newColumns);
   };
-  const handleDataSource = (listData: any[]) => {
+  const handleDataSource = (listData: Array<ResultType>) => {
     const object = { ticket_count: "ticket_count" };
     listData.map((data, _index) => {
       const label = data["label"];
@@ -43,12 +44,14 @@ function ShowDataScreen() {
     });
     setData([object]);
   };
-  const handleEchartsData = (dataList: { [x: string]: number }[]) => {
+  const handleEchartsData = (
+    dataList: { label: string; ticket_count: number }[]
+  ) => {
     console.log("handleEchartsData");
 
     const xData: Array<string> = [];
     const yData: Array<number> = [];
-    dataList.forEach((data: any) => {
+    dataList.forEach((data: { label: string; ticket_count: number }) => {
       xData.push(data["label"]);
       yData.push(data["ticket_count"]);
     });
@@ -56,7 +59,7 @@ function ShowDataScreen() {
 
     return [xData, yData];
   };
-  
+
   return (
     <div className="screenContainer">
       <div className="headerContainer">
