@@ -1,25 +1,56 @@
-import { Layout, Popconfirm ,Menu} from "antd";
-import { LogoutOutlined ,HomeOutlined,
+import { Layout, Popconfirm, Menu } from "antd";
+import {
+  LogoutOutlined,
+  HomeOutlined,
   DiffOutlined,
-  EditOutlined} from "@ant-design/icons";
+  EditOutlined,
+} from "@ant-design/icons";
 import "./index.scss";
-import ShowDataScreen from "../ShowData";
-import AddData from "../AddData";
-import HandleData from "../HandleData";
-const { Header, Content, Footer, Sider } = Layout;
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useStore } from "../../store";
+
+const { Header, Content, Sider } = Layout;
 function LayoutScreen() {
+  //设置状态 管理是否显示
+  const [visible, setVisible] = useState({
+    "/home": false,
+    "/article": false,
+    "/publish": false,
+  });
+  const handleSelect = (e: any) => {
+    setVisible((prev: any) => {
+      if (prev[e.key]) return prev;
+      return { ...visible, [e.key]: true };
+    });
+  };
+  const location = useLocation();
+  const navigate = useNavigate()
+  const {userStore,loginStore}=useStore()
+
+  // 这里是当前浏览器上的路径地址
+  const selectedKey = location.pathname;
+  const onLogout = () => {
+    loginStore.loginOut()
+    navigate('/login')
+  }
+  useEffect(() => {
+    try {
+      userStore.getUserInfo()
+    } catch {}
+  }, [userStore])
   return (
-    <Layout >
-      <Header >
-        <div className="logo" ></div>
+    <Layout>
+      <Header>
+        <div className="logo"></div>
         <div className="user-info">
-          <span className="user-name">sca</span>
+          <span className="user-name">{userStore.userInfo?userStore.userInfo:'用户' }</span>
           <span className="user-logout">
             <Popconfirm
               title="是否确认退出？"
               okText="退出"
               cancelText="取消"
-              onConfirm={()=>{}}
+              onConfirm={onLogout}
             >
               <LogoutOutlined /> 退出
             </Popconfirm>
@@ -27,25 +58,45 @@ function LayoutScreen() {
         </div>
       </Header>
       <Layout>
-        <Sider style={{ minHeight: "100vh" }} width={200} className="site-layout-background"> <Menu
+        <Sider
+          style={{ minHeight: "100vh" }}
+          width={200}
+          className="site-layout-background"
+        >
+          <Menu
             mode="inline"
             theme="dark"
-            selectedKeys={[]}
             style={{ height: "100%", borderRight: 0 }}
-           
+            selectedKeys={[selectedKey]}
           >
-            <Menu.Item icon={<HomeOutlined />} key="/home" onClick={()=>{}}>
-              数据概览
+            <Menu.Item
+              icon={<HomeOutlined />}
+              key="/showData"
+              onClick={handleSelect}
+            >
+              <Link to="/showData">数据概览</Link>
             </Menu.Item>
-            <Menu.Item icon={<DiffOutlined />} key="/article" onClick={()=>{}}>
-              内容管理
+            <Menu.Item
+              icon={<DiffOutlined />}
+              key="/handleData"
+              onClick={handleSelect}
+            >
+              <Link to="/handleData"> 内容管理</Link>
             </Menu.Item>
-            <Menu.Item icon={<EditOutlined />} key="/publish" onClick={()=>{}}>
-              发布饮品
+            <Menu.Item
+              icon={<EditOutlined />}
+              key="/deleteData"
+              onClick={handleSelect}
+            >
+              <Link to="/addData">发布饮品</Link>
             </Menu.Item>
-          </Menu></Sider>
-        <Content className="layout-content" style={{ padding: 20, minHeight: "100vh" }}>
-          <HandleData/>
+          </Menu>
+        </Sider>
+        <Content
+          className="layout-content"
+          style={{ padding: 20, minHeight: "100vh" }}
+        >
+          <Outlet></Outlet>
         </Content>
       </Layout>
     </Layout>

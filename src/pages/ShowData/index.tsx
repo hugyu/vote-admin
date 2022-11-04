@@ -56,6 +56,7 @@ function ShowDataScreen() {
 
     return [xData, yData];
   };
+  
   return (
     <div className="screenContainer">
       <div className="headerContainer">

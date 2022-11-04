@@ -15,7 +15,7 @@ router.post("/addItem", async (req, res) => {
 
     try {
       await sqlQuery(strsql);
-      const sql = `insert into choice (id,label) values(null,"${label}")`;
+      const sql = `insert into choice (id,label) values(null,"${option}")`;
       await sqlQuery(sql);
       const addSql = `insert into ${option} (id,label,imgUrl) values(null,"${label}","${imgUrl}")`;
       const result = await sqlQuery(addSql);

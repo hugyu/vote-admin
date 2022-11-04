@@ -7,7 +7,10 @@ module.exports = (app) => {
     app.use(require('./pure_milk'))
     app.use(require('./login'))
     app.use(require('./register'))
-    app.use(require('./choice'))
+    app.use(require('./choice')) 
     app.use(require('./addItem'))
+    app.use(require('./itemReq'))
+    app.use(require('./deleteReq'))
+    app.use(require('./changeItem'))
 
 }
