@@ -5,7 +5,6 @@ const sqlQuery = require("../mysql");
 // post请求req.query是拿不到数据的 要在req.body
 router.post("/register", async (req, res) => {
   try {
-    
     const { userPhone, nickName, password } = req.body;
     // 查询表中是否有手机号
     const sqlStr = `select userPhone from user where userPhone =${userPhone}`;
@@ -15,7 +14,7 @@ router.post("/register", async (req, res) => {
       //有对应的手机号 注册失败
       res.send({
         code: -2,
-        message: "手机号已被注册"
+        message: "手机号已被注册",
       });
     } else {
       //没有手机号 走注册流程
@@ -24,17 +23,17 @@ router.post("/register", async (req, res) => {
       res.send({
         code: 1,
         message: "注册成功",
-        result:{
+        result: {
           nickName,
-          userPhone
-        }
+          userPhone,
+        },
       });
     }
   } catch (err) {
     res.send({
       code: -1,
       message: "请求失败",
-      result: err
+      result: err,
     });
   }
 });

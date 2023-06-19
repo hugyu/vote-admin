@@ -1,12 +1,13 @@
 import { Empty, Select, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { http } from "../../common/utils";
 import Bar from "../../components/Bar";
 import { ResultType } from "../HandleData";
 import "./index.scss";
 const { Option } = Select;
 function ShowDataScreen() {
+  const [options, setOptions] = useState<Array<any>>([]);
   const [data, setData] = useState<Array<Omit<ResultType, "id">>>([]);
   const [eChartData, setEchartData] = useState<Array<any>>([]);
   const [columns, setColumns] = useState<ColumnsType<{}>>([
@@ -15,14 +16,20 @@ function ShowDataScreen() {
       dataIndex: "ticket_count",
     },
   ]);
+  const getOptions = async () => {
+    const res = await http.get("/choice");
+    const result = res.data.result;
+    setOptions(result);
+  };
   const getOptionResult = async (str: string) => {
-    const res = await http.get(`${str}`);
+    const res = await http.get(`/query?str=${str}`);
     const result = res.data.result;
     setData(result);
     getColumns(result);
     handleDataSource(result);
     handleEchartsData(result);
   };
+
   const getColumns = (listData: Array<ResultType>) => {
     const newColumns: ColumnsType<{ [key: string]: string }> = [
       { title: "", dataIndex: "ticket_count" },
@@ -59,7 +66,9 @@ function ShowDataScreen() {
 
     return [xData, yData];
   };
-
+  useEffect(() => {
+    getOptions();
+  }, []);
   return (
     <div className="screenContainer">
       <div className="headerContainer">
@@ -73,10 +82,9 @@ function ShowDataScreen() {
             getOptionResult(e);
           }}
         >
-          <Option value="mineral">矿泉水</Option>
-          <Option value="pure_milk">牛奶</Option>
-          <Option value="drinks">饮料</Option>
-          <Option value="yoghurt">酸奶</Option>
+          {options.map((option:{label:string,id:number}) => {
+            return <Option value={option.label}>{option.label}</Option>;
+          })}
         </Select>
       </div>
       <div
